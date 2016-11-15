@@ -127,7 +127,14 @@ exports.register_data = (req, res) => {
     let total = database.data.total,
         registerData = req.body,
         sendData = {};
-
+    if (!registerData.username || !registerData.mobile || !registerData.description || !registerData.gender || !registerData.password ) {
+        sendData = {
+            errno: -1,
+            msg: '报名失败，字段不匹配！'
+        }
+        res.send(JSON.stringify(sendData));
+        return false
+    }
     database.data.total++;
     registerData.gender === 'boy' ? registerData.head_icon = '/images/boy.png' : registerData.head_icon = '/images/girl.png';
     registerData.id = ++total;
